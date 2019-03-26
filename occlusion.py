@@ -16,7 +16,7 @@ import numpy as np
 from math import *
 from scipy.misc import imread
 from scipy.misc import imsave
-from cStringIO import StringIO
+from io import StringIO
 from PIL import Image
 from glob import glob
 import random
