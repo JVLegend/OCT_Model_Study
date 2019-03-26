@@ -16,7 +16,7 @@ import numpy as np
 from math import *
 from scipy.misc import imread
 from scipy.misc import imsave
-from io import StringIO
+from io import StringIO, BytesIO
 from PIL import Image
 from glob import glob
 import random
@@ -75,7 +75,7 @@ def createOcclusion(im,roi_size,stride_size):
         for c in range(0,iters):
             imOc = np.copy(im)
             imOc[r*stride_size:r*stride_size+roi_size-1,c*stride_size:c*stride_size+roi_size-1] = 150
-            occlusion_image_stream = StringIO()
+            occlusion_image_stream = BytesIO()
             imsave(occlusion_image_stream, imOc, "jpeg")           
             batch[i] = occlusion_image_stream.getvalue()
             occlusion_image_stream.close()            
@@ -106,7 +106,7 @@ def run_graph(image_data, occlusion_array, labels, input_layer_name, output_laye
     #   dimension represents the input image count, and the other has
     #   predictions per class
     since = time.time()
-    occlusion_array_string = StringIO()
+    occlusion_array_string =  BytesIO()
     imsave(occlusion_array_string, occlusion_array, "jpeg")
     softmax_tensor = sess.graph.get_tensor_by_name(output_layer_name)
     predictions, = sess.run(softmax_tensor, {input_layer_name: occlusion_array_string.getvalue()})
