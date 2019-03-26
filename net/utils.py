@@ -75,11 +75,16 @@ def create_image_lists(image_dir):
 
   for category in ["train", "test", "val"]:
     category_path = os.path.join(image_dir, category)
-    try:
-      bins = next(os.walk(category_path))[1]
-    except StopIteration:
-      sys.exit("ERROR: Missing either train/test/val folders in image_dir")
+    bins = [os.path.basename(x) for x in glob(category_path + "/*")]
+    bins.sort()
+#     try:
+#       print('bins sem o [1]', next(os.walk(category_path)))
+#       bins = next(os.walk(category_path))[1]
+#       bins.sort()
+#     except StopIteration:
+#       sys.exit("ERROR: Missing either train/test/val folders in image_dir")
     for diagnosis in bins:
+      print('diagnosis', diagnosis)
       bin_path = os.path.join(category_path, diagnosis)
       if category == "train":
         training_images.append(get_image_files(bin_path))
